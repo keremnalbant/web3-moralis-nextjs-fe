@@ -3,29 +3,26 @@ import Head from "next/head";
 import Image from "next/image";
 import Login from "../components/Login";
 import { useMoralis } from "react-moralis";
+import Header from "../components/Header";
+import Messages from "../components/Messages";
 
 const Home: NextPage = () => {
-  const { isAuthenticated, isAuthenticating, logout } = useMoralis();
-
-  const logOut = async () => {
-    await logout();
-    console.log("logged out");
-  };
+  const { isAuthenticated } = useMoralis();
 
   if (!isAuthenticated) {
     return <Login />;
   }
 
   return (
-    <div className="h-screen">
+    <div className="h-screen overflow-y-scroll bg-gradient-to-b from-black to-fuchsia-900 overflow-hidden">
       <Head>
         <title>Web3.0 App</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <h1>Welcome</h1>
-      <button onClick={logOut} disabled={isAuthenticating}>
-        Logout
-      </button>
+      <div className="max-w-full mx-auto">
+        <Header />
+        <Messages />
+      </div>
     </div>
   );
 };
