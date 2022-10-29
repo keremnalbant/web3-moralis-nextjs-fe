@@ -9,7 +9,6 @@ type MessageProps = {
 
 const Message = ({ message }: MessageProps) => {
   const { user } = useMoralis();
-  debugger;
   const isUserMessage = message.get("ethAddress") === user?.get("ethAddress");
   return (
     <div

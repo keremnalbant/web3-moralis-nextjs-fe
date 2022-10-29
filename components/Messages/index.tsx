@@ -1,14 +1,20 @@
-import React, { useEffect, useRef } from "react";
-import { ByMoralis, useMoralis, useMoralisQuery } from "react-moralis";
+import React, { useEffect, useRef, useState } from "react";
+import {
+  ByMoralis,
+  useMoralis,
+  useMoralisQuery,
+  useMoralisSubscription,
+} from "react-moralis";
 import Message from "../Message";
 import SendMessage from "../SendMessage";
 
 const MINS_DURATION = 15;
 
 const Messages = () => {
+  const [state, setState] = useState<number>(0);
   const { user } = useMoralis();
-  const endOfMessagesRef = useRef(null);
-  const { data, isLoading, error } = useMoralisQuery(
+  const endOfMessagesRef = useRef<any>(null);
+  const { fetch, data, isFetching, isLoading, error } = useMoralisQuery(
     "Messages",
     (query) =>
       query
@@ -18,8 +24,17 @@ const Messages = () => {
           new Date(Date.now() - 1000 * 60 * MINS_DURATION)
         ),
     [],
-    { live: true }
+    {
+      live: true,
+    }
   );
+
+  useEffect(() => {
+    fetch();
+    setTimeout(() => {
+      endOfMessagesRef.current.scrollIntoView({ behavior: "smooth" });
+    }, 200);
+  }, [state]);
 
   return (
     <div className="">
@@ -34,11 +49,11 @@ const Messages = () => {
           <Message key={message.id} message={message} />
         ))}
       </div>
+      <div className="flex justify-center">
+        <SendMessage setState={setState} />
+      </div>
       <div ref={endOfMessagesRef} className="text-center text-gray-400 mt-5">
         <p>You're up to date {user?.getUsername()}! 🥳</p>
-      </div>
-      <div className="flex justify-center">
-        <SendMessage endOfMessagesRef={endOfMessagesRef} />
       </div>
     </div>
   );

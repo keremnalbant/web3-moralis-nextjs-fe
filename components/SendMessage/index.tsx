@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { useMoralis } from "react-moralis";
 
 type SendMessageProps = {
-  endOfMessagesRef: any;
+  setState: any;
 };
 
-const SendMessage = ({ endOfMessagesRef }: SendMessageProps) => {
+const SendMessage = ({ setState }: SendMessageProps) => {
   const { user, Moralis } = useMoralis();
   const [message, setMessage] = useState("");
 
@@ -28,8 +28,10 @@ const SendMessage = ({ endOfMessagesRef }: SendMessageProps) => {
           console.log(error.message);
         }
       );
-    endOfMessagesRef.current.scrollIntoView({ behavior: "smooth" });
     setMessage("");
+    setTimeout(() => {
+      setState((state: any) => state + 1);
+    }, 200);
   };
 
   return (
