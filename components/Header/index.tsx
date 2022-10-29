@@ -20,7 +20,7 @@ const Header = () => {
             layout="fill"
             objectFit="cover"
             className="rounded-full"
-            src={`https://avatars.dicebear.com/api/pixel-art/${1}.svg`}
+            src={`https://avatars.dicebear.com/api/pixel-art/${"keremmmmmm"}.svg`}
           />
         </div>
         <div className="col-span-4 text-left lg:text-center">

@@ -1,6 +1,7 @@
 import React from "react";
 import { useMoralis } from "react-moralis";
 import Avatar from "../Avatar";
+import TimeAgo from "timeago-react";
 
 type MessageProps = {
   message: any;
@@ -8,6 +9,7 @@ type MessageProps = {
 
 const Message = ({ message }: MessageProps) => {
   const { user } = useMoralis();
+  debugger;
   const isUserMessage = message.get("ethAddress") === user?.get("ethAddress");
   return (
     <div
@@ -27,6 +29,21 @@ const Message = ({ message }: MessageProps) => {
       >
         <p>{message.get("message")}</p>
       </div>
+
+      <TimeAgo
+        datetime={message.createdAt}
+        className={`text-[10px] italic text-gray-400 ${
+          isUserMessage && "order-first pr-1"
+        }`}
+      />
+
+      <p
+        className={`absolute -bottom-5 text-xs ${
+          isUserMessage ? "text-pink-500" : "text-blue-400"
+        }`}
+      >
+        {message.get("username")}
+      </p>
     </div>
   );
 };
